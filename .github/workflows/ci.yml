@@ -1,0 +1,21 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: bash-guard hook tests
+        run: python3 hooks/bash-guard/test_bash_guard.py
+
+      - name: n8n workflow structure validation
+        run: python3 n8n/weekly-github-summary/validate_workflow.py
